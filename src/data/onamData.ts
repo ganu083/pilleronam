@@ -3,7 +3,7 @@ import { Game, Prize, EventInfo, PhotoItem } from '../types';
 export const EVENT_DATA: EventInfo = {
   title: 'പിള്ളേരുടെ ഓണം',
   subtitle: 'കുട്ടികളുടെ കലാകായിക മത്സരങ്ങൾ',
-  dateString: 'നാളെ (Tomorrow)',
+  dateString: '2026 ആഗസ്റ്റ് 26, ബുധൻ (26th August 2026)',
   timeString: 'ഉച്ചയ്ക്ക് 2:00 PM മുതൽ',
   locationName: 'കോട്ടയം',
   locationDetails: 'പ്രധാന വേദി, കോട്ടയം, കേരളം',

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Calendar, Clock, MapPin, Share2, Download, Check } from 'lucide-react';
+import { Sparkles, Calendar, Clock, MapPin, Share2, Download, Check, CalendarPlus } from 'lucide-react';
 import { triggerOnamPetals } from '../utils/confetti';
-import { downloadCalendarEvent, getWhatsAppShareUrl } from '../utils/helpers';
+import { downloadCalendarEvent, getGoogleCalendarUrl, getWhatsAppShareUrl } from '../utils/helpers';
+import { EVENT_DATA } from '../data/onamData';
 
 export const HeroHeader: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState(false);
+  const [showCalendarOptions, setShowCalendarOptions] = useState(false);
 
   // Trigger celebratory floral confetti on initial load
   useEffect(() => {
@@ -52,14 +54,14 @@ export const HeroHeader: React.FC = () => {
         </p>
 
         {/* Date & Time Highlight Pill */}
-        <div className="inline-flex flex-wrap items-center justify-center gap-2 bg-white text-stone-800 font-bold px-6 py-3 rounded-full shadow-lg border-2 border-amber-300 text-base sm:text-lg mb-8">
-          <span className="flex items-center gap-2 text-amber-800">
-            <Calendar className="w-5 h-5 text-amber-600" />
-            <span>നാളെ (Tomorrow)</span>
+        <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-white text-stone-800 font-bold px-6 py-3.5 rounded-full shadow-lg border-2 border-amber-300 text-sm sm:text-base md:text-lg mb-8">
+          <span className="flex items-center gap-2 text-amber-900 font-extrabold">
+            <Calendar className="w-5 h-5 text-amber-600 shrink-0" />
+            <span>2026 ആഗസ്റ്റ് 26, ബുധൻ (26th August 2026)</span>
           </span>
-          <span className="text-amber-400 font-normal">|</span>
-          <span className="flex items-center gap-2 text-amber-800">
-            <Clock className="w-5 h-5 text-amber-600" />
+          <span className="text-amber-400 font-normal hidden sm:inline">|</span>
+          <span className="flex items-center gap-2 text-amber-900">
+            <Clock className="w-5 h-5 text-amber-600 shrink-0" />
             <span>ഉച്ചയ്ക്ക് 2:00 PM മുതൽ</span>
           </span>
         </div>
@@ -90,7 +92,7 @@ export const HeroHeader: React.FC = () => {
             href="https://maps.app.goo.gl/GCmHbKa8QT73hL9P9?g_st=ic"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 bg-stone-900 hover:bg-stone-800 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm"
           >
             <MapPin className="w-5 h-5 text-amber-400" />
             <span>വേദിയിലേക്ക് വഴി (Map)</span>
@@ -98,24 +100,57 @@ export const HeroHeader: React.FC = () => {
 
           <button
             onClick={() => triggerOnamPetals()}
-            className="inline-flex items-center gap-2 bg-amber-700/80 hover:bg-amber-800 text-yellow-100 font-bold py-3 px-5 rounded-xl border border-amber-300/50 shadow-md transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 bg-amber-700/80 hover:bg-amber-800 text-yellow-100 font-bold py-3 px-5 rounded-xl border border-amber-300/50 shadow-md transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm cursor-pointer"
           >
             <Sparkles className="w-5 h-5 text-yellow-300" />
             <span>പൂക്കൾ പൊഴിക്കൂ 🌸</span>
           </button>
 
-          <button
-            onClick={downloadCalendarEvent}
-            className="inline-flex items-center gap-2 bg-amber-400/30 hover:bg-amber-400/40 text-white font-bold py-3 px-5 rounded-xl border border-white/30 backdrop-blur-sm shadow-md transition-all hover:scale-105 active:scale-95"
-            title="കലണ്ടറിൽ ചേർക്കുക"
-          >
-            <Download className="w-5 h-5 text-yellow-200" />
-            <span>Add to Calendar</span>
-          </button>
+          {/* Calendar Dropdown / Actions */}
+          <div className="relative">
+            <button
+              onClick={() => setShowCalendarOptions(!showCalendarOptions)}
+              className="inline-flex items-center gap-2 bg-amber-400/30 hover:bg-amber-400/40 text-white font-bold py-3 px-5 rounded-xl border border-white/30 backdrop-blur-sm shadow-md transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm cursor-pointer"
+              title="കലണ്ടറിൽ ചേർക്കുക (26 August 2026)"
+            >
+              <CalendarPlus className="w-5 h-5 text-yellow-200" />
+              <span>Add to Calendar</span>
+            </button>
+
+            {showCalendarOptions && (
+              <div 
+                className="absolute top-full mt-2 left-1/2 -translate-x-1/2 w-64 bg-white text-stone-800 rounded-2xl shadow-xl border border-amber-200 p-2 z-50 animate-in fade-in zoom-in-95 duration-150"
+              >
+                <div className="text-[11px] font-bold text-amber-900 px-3 py-1.5 border-b border-amber-100 font-malayalam">
+                  📅 2026 ആഗസ്റ്റ് 26 (2:00 PM)
+                </div>
+                <a
+                  href={getGoogleCalendarUrl()}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setShowCalendarOptions(false)}
+                  className="flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg hover:bg-amber-50 text-stone-700 hover:text-amber-800 transition"
+                >
+                  <span className="text-base">📅</span>
+                  <span>Google Calendar-ൽ ചേർക്കുക</span>
+                </a>
+                <button
+                  onClick={() => {
+                    downloadCalendarEvent();
+                    setShowCalendarOptions(false);
+                  }}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg hover:bg-amber-50 text-stone-700 hover:text-amber-800 transition cursor-pointer text-left"
+                >
+                  <Download className="w-4 h-4 text-amber-600" />
+                  <span>Apple / Outlook (.ics ഫയൽ)</span>
+                </button>
+              </div>
+            )}
+          </div>
 
           <button
             onClick={() => window.open(getWhatsAppShareUrl(window.location.href), '_blank')}
-            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-5 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95"
+            className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-5 rounded-xl shadow-md transition-all hover:scale-105 active:scale-95 text-xs sm:text-sm cursor-pointer"
             title="വാട്സാപ്പിൽ പങ്കിടുക"
           >
             <Share2 className="w-5 h-5 text-white" />

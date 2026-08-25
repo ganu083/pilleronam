@@ -46,7 +46,7 @@ export const HostingGuideModal: React.FC<HostingGuideModalProps> = ({ isOpen, on
     <h1 class="text-3xl md:text-5xl font-bold mt-2">പിള്ളേരുടെ ഓണം</h1>
     <p class="text-lg md:text-xl mt-2 text-yellow-100 font-medium">കുട്ടികളുടെ കലാകായിക മത്സരങ്ങൾ</p>
     <div class="mt-4 inline-block bg-white text-stone-800 font-bold px-4 py-2 rounded-full shadow">
-      📅 നാളെ ഉച്ചയ്ക്ക് 2:00 PM മുതൽ
+      📅 2026 ആഗസ്റ്റ് 26, ബുധൻ | ഉച്ചയ്ക്ക് 2:00 PM മുതൽ
     </div>
   </header>
 
