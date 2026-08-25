@@ -1,0 +1,46 @@
+{
+  "entities": {
+    "Photo": {
+      "title": "Photo",
+      "description": "Uploaded celebration photos shared across all visitors",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the photo"
+        },
+        "url": {
+          "type": "string",
+          "description": "Optimized base64 data URL or external image URL"
+        },
+        "caption": {
+          "type": "string",
+          "description": "Title or caption for the celebration photo"
+        },
+        "uploader": {
+          "type": "string",
+          "description": "Name or handle of the person who shared the photo"
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "Formatted date string when uploaded"
+        },
+        "createdAt": {
+          "type": "number",
+          "description": "Timestamp in milliseconds for sorting"
+        },
+        "gameTag": {
+          "type": "string",
+          "description": "Associated game or event tag"
+        }
+      },
+      "required": ["url", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/photos/{photoId}": {
+      "schema": "Photo",
+      "description": "Collection of public celebration photos uploaded by users"
+    }
+  }
+}

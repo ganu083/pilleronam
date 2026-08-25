@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Photos collection - Anyone can view celebration photos, anyone can upload new ones
+    match /photos/{photoId} {
+      allow read: if true;
+      allow create: if request.resource.data.url is string && request.resource.data.url.size() > 0;
+      allow update, delete: if true;
+    }
+  }
+}

@@ -24,6 +24,7 @@ export interface PhotoItem {
   caption: string;
   uploader?: string;
   timestamp: string;
+  createdAt?: number;
   gameTag?: string;
 }
 
