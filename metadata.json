@@ -1,0 +1,6 @@
+{
+  "name": "പിള്ളേരുടെ ഓണം - Onam Celebration",
+  "description": "Festive celebration portal for Pillarede Onam featuring children's games, prizes, venue directions to Kottayam, photo gallery, and score tracker.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
