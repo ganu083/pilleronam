@@ -42,48 +42,6 @@ export const GAMES_LIST: Game[] = [
     badgeColor: 'bg-yellow-100 text-yellow-800 border-yellow-200'
   },
   {
-    id: 'bottle-fill',
-    malayalamName: 'കുപ്പിയിൽ വെള്ളം നിറയ്ക്കൽ',
-    englishName: 'Bottle Water Filling',
-    icon: '🍾',
-    description: 'സ്പോഞ്ചോ ചെറിയ ഗ്ലാസോ ഉപയോഗിച്ച് വെള്ളം പാത്രത്തിൽ നിന്ന് കുപ്പിയിലേക്ക് വേഗത്തിൽ നിറയ്ക്കുക.',
-    rules: [
-      'നിശ്ചിത അകലത്തിൽ നിന്ന് ഓടിവന്ന് നിറയ്ക്കണം.',
-      'കുപ്പി വീഴാതെ സൂക്ഷിക്കണം.',
-      'ആദ്യം വെള്ളം നിറഞ്ഞു കവിയുന്നവർ വിജയി.'
-    ],
-    ageGroup: '5 - 12 വയസ്സ്',
-    badgeColor: 'bg-cyan-100 text-cyan-800 border-cyan-200'
-  },
-  {
-    id: 'musical-chairs',
-    malayalamName: 'കസേരകളി',
-    englishName: 'Musical Chairs',
-    icon: '🪑',
-    description: 'പാട്ട് നിലയ്ക്കുമ്പോൾ ഇരിപ്പിടം പിടിച്ചെടുക്കുന്ന കുട്ടികളുടെ ഏറ്റവും പ്രിയപ്പെട്ട ഗെയിം!',
-    rules: [
-      'പാട്ട് ഉള്ളപ്പോൾ മാത്രമേ കസേരയ്ക്ക് ചുറ്റും നടക്കാവൂ.',
-      'പാട്ട് നിലച്ചാൽ ഉടൻ അടുത്തുള്ള കസേരയിൽ ഇരിക്കണം.',
-      'തള്ളിയിടാൻ പാടില്ല, മാന്യമായി കളിക്കുക.'
-    ],
-    ageGroup: 'എല്ലാ പ്രായക്കാർക്കും',
-    badgeColor: 'bg-amber-100 text-amber-800 border-amber-200'
-  },
-  {
-    id: 'frog-jump',
-    malayalamName: 'തവളച്ചാട്ടം',
-    englishName: 'Frog Jump Race',
-    icon: '🐸',
-    description: 'തവളയെപ്പോലെ ചാടിച്ചാടി നിശ്ചിത ദൂരം അതിവേഗം താണ്ടുന്ന കുട്ടികളുടെ ഊർജ്ജസ്വലമായ മത്സരം.',
-    rules: [
-      'ഇരു കൈകളും കാലുകളും കൃത്യമായ തവള പൊസിഷനിൽ ആയിരിക്കണം.',
-      'എഴുന്നേറ്റു നടക്കാൻ പാടില്ല.',
-      'നേരെ ലക്ഷ്യത്തിലേക്ക് ചാടുക.'
-    ],
-    ageGroup: '4 - 10 വയസ്സ്',
-    badgeColor: 'bg-emerald-100 text-emerald-800 border-emerald-200'
-  },
-  {
     id: 'kulam-kara',
     malayalamName: 'കുളം കര',
     englishName: 'Kulam Kara (Pond & Bank)',
@@ -126,30 +84,78 @@ export const GAMES_LIST: Game[] = [
     badgeColor: 'bg-purple-100 text-purple-800 border-purple-200'
   },
   {
-    id: 'pin-bindi',
-    malayalamName: 'സുന്ദരിക്ക് പൊട്ട് കുത്തൽ',
-    englishName: 'Sundarikku Pottu Kuthal',
+    id: 'musical-chairs-kids',
+    malayalamName: 'കസേരകളി (കുട്ടികൾ)',
+    englishName: 'Musical Chairs (Kids)',
+    icon: '🪑',
+    description: 'പാട്ട് നിലയ്ക്കുമ്പോൾ ഇരിപ്പിടം പിടിച്ചെടുക്കുന്ന കുട്ടിത്താരങ്ങളുടെ ഏറ്റവും പ്രിയപ്പെട്ട കസേരകളി മത്സരം!',
+    rules: [
+      'പാട്ട് ഉള്ളപ്പോൾ മാത്രമേ കസേരയ്ക്ക് ചുറ്റും നടക്കാവൂ.',
+      'പാട്ട് നിലച്ചാൽ ഉടൻ അടുത്തുള്ള കസേരയിൽ ഇരിക്കണം.',
+      'തള്ളിയിടാൻ പാടില്ല, മാന്യമായി കളിക്കുക.'
+    ],
+    ageGroup: 'കുട്ടികൾ (Kids)',
+    badgeColor: 'bg-amber-100 text-amber-800 border-amber-200'
+  },
+  {
+    id: 'musical-chairs-men',
+    malayalamName: 'കസേരകളി (പുരുഷന്മാർ)',
+    englishName: 'Musical Chairs (Adults Male)',
+    icon: '🪑',
+    description: 'മുതിർന്ന പുരുഷന്മാർക്കായുള്ള ആവേശോജ്ജ്വലവും ചിരിയുണർത്തുന്നതുമായ കസേരകളി മത്സരം.',
+    rules: [
+      'പാട്ട് ഉള്ളപ്പോൾ നിരയായി കസേരയ്ക്ക് ചുറ്റും വലംവെക്കുക.',
+      'പാട്ട് നിന്നയുടൻ അടുത്തുള്ള കസേര കണ്ടെത്തുക.',
+      'കായികമായ തള്ളലുകൾ ഒഴിവാക്കി ആവേശത്തോടെ കളിക്കുക.'
+    ],
+    ageGroup: 'പുരുഷന്മാർ (Adults Male)',
+    badgeColor: 'bg-teal-100 text-teal-800 border-teal-200'
+  },
+  {
+    id: 'musical-chairs-women',
+    malayalamName: 'കസേരകളി (വനിതകൾ)',
+    englishName: 'Musical Chairs (Adults Female)',
+    icon: '🪑',
+    description: 'വനിതകൾക്കായുള്ള ആവേശവും ചിരിയും നിറഞ്ഞ ഓണക്കാല കസേരകളി മത്സരം.',
+    rules: [
+      'പാട്ടിന്റെ താളത്തിനൊത്ത് കസേരകൾക്ക് ചുറ്റും നടക്കുക.',
+      'പാട്ട് നിലച്ചാൽ ഇരിപ്പിടം സ്വന്തമാക്കുക.',
+      'സൗഹൃദത്തോടെയും സന്തോഷത്തോടെയും കളിക്കുക.'
+    ],
+    ageGroup: 'വനിതകൾ (Adults Female)',
+    badgeColor: 'bg-rose-100 text-rose-800 border-rose-200'
+  },
+  {
+    id: 'pin-bindi-kids',
+    malayalamName: 'സുന്ദരിക്ക് പൊട്ട് കുത്തൽ (കുട്ടികൾ)',
+    englishName: 'Sundarikku Pottu Kuthal (Kids)',
     icon: '🎯',
-    description: 'കണ്ണുകെട്ടി വട്ടം ചുറ്റി ബോർഡിലെ ചിത്രത്തിലെ കൃത്യമായ നെറ്റിയിൽ പൊട്ട് തൊടുന്ന ക്ലാസിക് ഓണം കളി.',
+    description: 'കുട്ടികൾ കണ്ണുകെട്ടി വട്ടം ചുറ്റി ബോർഡിലെ ചിത്രത്തിലെ കൃത്യമായ നെറ്റിയിൽ പൊട്ട് തൊടുന്ന രസകരമായ ഓണം കളി.',
     rules: [
       'കണ്ണുകൾ തുണികൊണ്ട് ഭദ്രമായി മൂടിക്കെട്ടും.',
       'ചിത്രത്തിന് മുന്നിലേക്ക് നടന്ന് കൃത്യസ്ഥാനത്ത് തൊടണം.',
       'ഏറ്റവും കൃത്യമായ സ്ഥാനത്ത് പൊട്ട് വെക്കുന്നവർക്ക് സമ്മാനം.'
     ],
-    ageGroup: 'എല്ലാ പ്രായക്കാർക്കും',
-    badgeColor: 'bg-rose-100 text-rose-800 border-rose-200'
+    ageGroup: 'കുട്ടികൾ (Kids)',
+    badgeColor: 'bg-indigo-100 text-indigo-800 border-indigo-200'
+  },
+  {
+    id: 'pin-bindi-women',
+    malayalamName: 'സുന്ദരിക്ക് പൊട്ട് കുത്തൽ (വനിതകൾ)',
+    englishName: 'Sundarikku Pottu Kuthal (Women)',
+    icon: '🎯',
+    description: 'വനിതകൾക്കായുള്ള ചിരിയും കൈയ്യടിയും നിറഞ്ഞ പരമ്പരാഗത പൊട്ടുകുത്തൽ മത്സരം.',
+    rules: [
+      'കണ്ണുകൾ തുണികൊണ്ട് ഭദ്രമായി മൂടിക്കെട്ടി മുന്നോട്ട് നയിക്കും.',
+      'ചിത്രത്തിന് മുന്നിലേക്ക് നടന്ന് കൃത്യസ്ഥാനത്ത് പൊട്ട് തൊടണം.',
+      'ഏറ്റവും കൃത്യമായ സ്ഥാനത്ത് പൊട്ട് വെക്കുന്നവർ വിജയിക്കും.'
+    ],
+    ageGroup: 'വനിതകൾ (Women)',
+    badgeColor: 'bg-fuchsia-100 text-fuchsia-800 border-fuchsia-200'
   }
 ];
 
 export const PRIZES_LIST: Prize[] = [
-  {
-    id: 'atlas',
-    malayalamTitle: 'അറ്റ്‌ലസ് (Atlas)',
-    englishTitle: 'Illustrated World Atlas',
-    icon: '🌍',
-    category: 'വിജ്ഞാനം & അറിവ്',
-    description: 'ലോകരാജ്യങ്ങളെയും സംസ്കാരങ്ങളെയും കുറിച്ച് പഠിക്കാൻ മനോഹരമായ കളർ അറ്റ്‌ലസ് പുസ്തകം.'
-  },
   {
     id: 'rubiks-cube',
     malayalamTitle: 'റൂബിക്സ് ക്യൂബ് (Rubik\'s Cube)',
@@ -157,30 +163,6 @@ export const PRIZES_LIST: Prize[] = [
     icon: '🧩',
     category: 'ബുദ്ധി & വേഗത',
     description: 'ചിന്താശേഷിയും കൈവേഗവും വർദ്ധിപ്പിക്കാൻ സഹായിക്കുന്ന ഹൈ-സ്പീഡ് റൂബിക്സ് ക്യൂബ്.'
-  },
-  {
-    id: 'jigsaw-puzzle',
-    malayalamTitle: 'ജിഗ്‌സോ പസിൽ (Jigsaw Puzzle)',
-    englishTitle: 'Jigsaw Puzzle Set',
-    icon: '🖼️',
-    category: 'വിനോദം & ഏകാഗ്രത',
-    description: 'കുട്ടികൾക്ക് ഒത്തൊരുമയോടെ പൂർത്തിയാക്കാൻ കഴിയുന്ന വർണ്ണാഭമായ ജിഗ്‌സോ പസിൽ ബോർഡ്.'
-  },
-  {
-    id: 'board-games',
-    malayalamTitle: 'ക്ലാസിക് ബോർഡ് ഗെയിമുകൾ',
-    englishTitle: 'Classic Board Games',
-    icon: '🎲',
-    category: 'കുടുംബ വിനോദം',
-    description: 'ലുഡോ, പാമ്പും കോണിയും, ചെസ്സ് തുടങ്ങിയ കുടുംബത്തോടൊപ്പം കളിക്കാവുന്ന ബോർഡ് ഗെയിം കിറ്റുകൾ.'
-  },
-  {
-    id: 'writing-tablet',
-    malayalamTitle: 'റൈറ്റിംഗ് / ടാബ്‌ലെറ്റ് പാഡ്',
-    englishTitle: 'LCD Writing & Drawing Tablet',
-    icon: '📱',
-    category: 'ഡിജിറ്റൽ സർഗ്ഗാത്മകത',
-    description: 'പേപ്പർ പാഴാക്കാതെ വരയ്ക്കാനും എഴുതാനും പറ്റിയ പരിസ്ഥിതി സൗഹൃദ LCD ഡ്രോയിംഗ് ടാബ്‌ലെറ്റ്.'
   },
   {
     id: 'drawing-books',
@@ -192,19 +174,19 @@ export const PRIZES_LIST: Prize[] = [
   },
   {
     id: 'sketch-crayons',
-    malayalamTitle: 'സ്കെച്ച് പെൻ, ക്രയോൺസ്, കളർ പെൻസിലുകൾ',
+    malayalamTitle: 'സ്കെച്ച് പെൻ, ക്രയോൺസ് & കളർ പെൻസിലുകൾ',
     englishTitle: 'Sketch Pens, Crayons & Colour Pencils',
     icon: '🖍️',
     category: 'വർണ്ണലോകം',
     description: 'പ്രീമിയം ബ്രാൻഡ് കളർ പെൻസിലുകൾ, ഓയിൽ പാസ്റ്റലുകൾ, വാട്ടർ കളർ സ്കെച്ച് പെൻ സെറ്റുകൾ.'
   },
   {
-    id: 'pencil-box-stencils',
-    malayalamTitle: 'പെൻസിൽ ബോക്സ് & സ്റ്റെൻസിൽസ്',
-    englishTitle: 'Pencil Box & Geometry Stencils',
-    icon: '📐',
-    category: 'സ്കൂൾ കിറ്റ്',
-    description: 'മൾട്ടി-ലെയർ പെൻസിൽ ബോക്സുകൾ, അളവുപകരണങ്ങൾ, വിവിധ ഷേപ്പുകളിലുള്ള സ്റ്റെൻസിലുകൾ.'
+    id: 'trophy-medals',
+    malayalamTitle: 'വിജയികൾക്കുള്ള ട്രോഫികളും മെഡലുകളും',
+    englishTitle: 'Winner Trophies & Medals',
+    icon: '🏆',
+    category: 'വിജയാദരം',
+    description: '1, 2, 3 സ്ഥാനം നേടിയ പ്രതിഭകൾക്കുള്ള മനോഹരമായ ഓണം ട്രോഫികളും മെഡലുകളും.'
   }
 ];
 

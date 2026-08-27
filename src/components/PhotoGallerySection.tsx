@@ -9,7 +9,9 @@ import {
   Image as ImageIcon, 
   RefreshCw, 
   Sparkles,
-  Camera
+  Camera,
+  Award,
+  Trophy
 } from 'lucide-react';
 import { triggerOnamPetals } from '../utils/confetti';
 import { db } from '../lib/firebase';
@@ -26,6 +28,7 @@ import { compressImage } from '../utils/imageCompressor';
 
 export const PhotoGallerySection: React.FC = () => {
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
+  const [selectedFilter, setSelectedFilter] = useState<'all' | 'prizes' | 'general'>('all');
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoItem | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<string>('');
@@ -63,7 +66,6 @@ export const PhotoGallerySection: React.FC = () => {
             data.caption === 'സമ്മാനങ്ങൾ സ്വീകരിക്കുന്ന കുട്ടിത്താരങ്ങൾ 🎁';
 
           if (isSample) {
-            // Delete legacy sample doc asynchronously
             deleteDoc(doc(db, 'photos', docSnap.id)).catch(() => {});
             return;
           }
@@ -75,7 +77,9 @@ export const PhotoGallerySection: React.FC = () => {
             uploader: data.uploader || 'ആഘോഷ സംഘം',
             timestamp: data.timestamp || 'ഓണം 2026',
             createdAt: data.createdAt?.toMillis ? data.createdAt.toMillis() : (data.createdAt || Date.now()),
-            gameTag: data.gameTag || 'ആഘോഷം'
+            gameId: data.gameId,
+            gameTag: data.gameTag || 'ആഘോഷം',
+            isPrizeDistribution: data.isPrizeDistribution ?? false
           });
         });
 
@@ -145,7 +149,8 @@ export const PhotoGallerySection: React.FC = () => {
           uploader: author,
           timestamp: dateStr,
           createdAt: Date.now(),
-          gameTag: 'ആഘോഷം'
+          gameTag: 'ആഘോഷം',
+          isPrizeDistribution: false
         });
       }
 
@@ -177,12 +182,20 @@ export const PhotoGallerySection: React.FC = () => {
     }
   };
 
+  const filteredPhotos = photos.filter(photo => {
+    if (selectedFilter === 'prizes') return photo.isPrizeDistribution || photo.caption.includes('സമ്മാന');
+    if (selectedFilter === 'general') return !photo.isPrizeDistribution && !photo.caption.includes('സമ്മാന');
+    return true;
+  });
+
+  const prizePhotosCount = photos.filter(p => p.isPrizeDistribution || p.caption.includes('സമ്മാന')).length;
+
   return (
     <section id="photos" className="scroll-mt-20">
       <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-amber-100/80 transition hover:shadow-md">
         
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-amber-100">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4 pb-4 border-b border-amber-100">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-2xl">📸</span>
@@ -197,7 +210,7 @@ export const PhotoGallerySection: React.FC = () => {
               </div>
             </div>
             <p className="text-stone-500 text-xs sm:text-sm mt-1">
-              നിങ്ങൾ അപ്‌ലോഡ് ചെയ്യുന്ന യഥാർത്ഥ ഫോട്ടോകൾ എല്ലാവർക്കും തത്സമയം ഇവിടെ കാണാം.
+              നിങ്ങൾ അപ്‌ലോഡ് ചെയ്യുന്ന യഥാർത്ഥ ഫോട്ടോകളും സമ്മാനദാന ചിത്രങ്ങളും ഇവിടെ തത്സമയം കാണാം.
             </p>
           </div>
 
@@ -232,6 +245,53 @@ export const PhotoGallerySection: React.FC = () => {
           </div>
         </div>
 
+        {/* Filter Chips */}
+        {photos.length > 0 && (
+          <div className="flex items-center gap-2 mb-5 overflow-x-auto pb-1 no-scrollbar text-xs font-semibold">
+            <button
+              onClick={() => setSelectedFilter('all')}
+              className={`px-3 py-1.5 rounded-xl transition cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                selectedFilter === 'all'
+                  ? 'bg-amber-800 text-white shadow-xs'
+                  : 'bg-amber-50 text-amber-900 hover:bg-amber-100'
+              }`}
+            >
+              <span>എല്ലാ ചിത്രങ്ങളും</span>
+              <span className="bg-amber-700/60 px-1.5 py-0.2 rounded-full text-[10px] text-amber-100">
+                {photos.length}
+              </span>
+            </button>
+
+            <button
+              onClick={() => setSelectedFilter('prizes')}
+              className={`px-3 py-1.5 rounded-xl transition cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                selectedFilter === 'prizes'
+                  ? 'bg-amber-800 text-white shadow-xs'
+                  : 'bg-amber-50 text-amber-900 hover:bg-amber-100'
+              }`}
+            >
+              <Trophy className="w-3.5 h-3.5 text-yellow-500" />
+              <span>സമ്മാനദാന ചിത്രങ്ങൾ (Prizes)</span>
+              {prizePhotosCount > 0 && (
+                <span className="bg-amber-700/60 px-1.5 py-0.2 rounded-full text-[10px] text-amber-100">
+                  {prizePhotosCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setSelectedFilter('general')}
+              className={`px-3 py-1.5 rounded-xl transition cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                selectedFilter === 'general'
+                  ? 'bg-amber-800 text-white shadow-xs'
+                  : 'bg-amber-50 text-amber-900 hover:bg-amber-100'
+              }`}
+            >
+              <span>മറ്റു നിമിഷങ്ങൾ</span>
+            </button>
+          </div>
+        )}
+
         {/* Gallery Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           
@@ -248,7 +308,7 @@ export const PhotoGallerySection: React.FC = () => {
           </div>
 
           {/* Real User Photos Cards from Firestore */}
-          {photos.map((photo) => (
+          {filteredPhotos.map((photo) => (
             <div
               key={photo.id}
               onClick={() => setSelectedPhoto(photo)}
@@ -262,10 +322,15 @@ export const PhotoGallerySection: React.FC = () => {
               />
               
               {/* Overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3 text-white">
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3 text-white">
                 <div className="flex justify-between items-start gap-1">
-                  <span className="text-[10px] bg-amber-500/90 text-stone-950 font-bold px-2 py-0.5 rounded-full">
-                    {photo.gameTag || 'ഓണം 2026'}
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
+                    photo.isPrizeDistribution 
+                      ? 'bg-yellow-400 text-stone-950' 
+                      : 'bg-amber-500/90 text-stone-950'
+                  }`}>
+                    {photo.isPrizeDistribution && <Trophy className="w-2.5 h-2.5" />}
+                    <span>{photo.gameTag || (photo.isPrizeDistribution ? 'സമ്മാനദാനം' : 'ഓണം 2026')}</span>
                   </span>
                   <button
                     onClick={(e) => handleDeletePhoto(e, photo.id)}
@@ -291,14 +356,16 @@ export const PhotoGallerySection: React.FC = () => {
 
         </div>
 
-        {/* Empty state when no user photos are uploaded yet */}
-        {photos.length === 0 && (
+        {/* Empty state when no user photos match or are uploaded yet */}
+        {filteredPhotos.length === 0 && (
           <div className="text-center py-10 px-4 bg-amber-50/50 rounded-2xl border border-dashed border-amber-200 mt-4">
             <div className="w-14 h-14 mx-auto rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-3">
               <Camera className="w-7 h-7" />
             </div>
             <h4 className="text-stone-800 font-bold font-malayalam text-base sm:text-lg">
-              ഫോട്ടോകൾ ഒന്നും ഇതുവരെ ചേർത്തിട്ടില്ല
+              {photos.length === 0 
+                ? 'ഫോട്ടോകൾ ഒന്നും ഇതുവരെ ചേർത്തിട്ടില്ല'
+                : 'ഈ കാറ്റഗറിയിൽ ഫോട്ടോകൾ ഇല്ല'}
             </h4>
             <p className="text-stone-500 text-xs sm:text-sm mt-1 max-w-md mx-auto">
               ആഘോഷ പരിപാടിയുടെ ഫോട്ടോകൾ ക്യാമറയിൽ നിന്നോ ഗാലറിയിൽ നിന്നോ നേരിട്ട് അപ്‌ലോഡ് ചെയ്യാം.

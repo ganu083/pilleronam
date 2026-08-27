@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sparkles, Calendar, Clock, MapPin, Share2, Download, Check, CalendarPlus } from 'lucide-react';
 import { triggerOnamPetals } from '../utils/confetti';
 import { downloadCalendarEvent, getGoogleCalendarUrl, getWhatsAppShareUrl } from '../utils/helpers';
-import { EVENT_DATA } from '../data/onamData';
+import { EVENT_DATA, GAMES_LIST } from '../data/onamData';
 
 export const HeroHeader: React.FC = () => {
   const [copiedLink, setCopiedLink] = useState(false);
@@ -70,7 +70,7 @@ export const HeroHeader: React.FC = () => {
         <div className="grid grid-cols-3 gap-3 max-w-lg mx-auto mb-8 text-xs sm:text-sm font-semibold">
           <div className="bg-amber-700/60 backdrop-blur-sm rounded-xl p-3 border border-amber-300/30">
             <div className="text-2xl mb-0.5">🎈</div>
-            <div className="text-yellow-200">9 മത്സരങ്ങൾ</div>
+            <div className="text-yellow-200">{GAMES_LIST.length} മത്സരങ്ങൾ</div>
             <div className="text-[10px] text-yellow-100/80">Fun Games</div>
           </div>
           <div className="bg-amber-700/60 backdrop-blur-sm rounded-xl p-3 border border-amber-300/30">

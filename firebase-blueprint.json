@@ -29,18 +29,66 @@
           "type": "number",
           "description": "Timestamp in milliseconds for sorting"
         },
+        "gameId": {
+          "type": "string",
+          "description": "Associated game identifier if relevant"
+        },
         "gameTag": {
           "type": "string",
           "description": "Associated game or event tag"
+        },
+        "isPrizeDistribution": {
+          "type": "boolean",
+          "description": "Whether the photo is from gift/prize distribution"
         }
       },
       "required": ["url", "createdAt"]
+    },
+    "GameResult": {
+      "title": "GameResult",
+      "description": "1st, 2nd, and 3rd prize winners for each game",
+      "type": "object",
+      "properties": {
+        "gameId": {
+          "type": "string",
+          "description": "The unique ID of the game"
+        },
+        "firstPrize": {
+          "type": "string",
+          "description": "Name of 1st prize winner"
+        },
+        "secondPrize": {
+          "type": "string",
+          "description": "Name of 2nd prize winner"
+        },
+        "thirdPrize": {
+          "type": "string",
+          "description": "Name of 3rd prize winner"
+        },
+        "specialMention": {
+          "type": "string",
+          "description": "Special mention or consolation prize winners"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Timestamp when result was updated"
+        },
+        "updatedBy": {
+          "type": "string",
+          "description": "Name of the person who recorded the result"
+        }
+      },
+      "required": ["gameId"]
     }
   },
   "firestore": {
     "/photos/{photoId}": {
       "schema": "Photo",
       "description": "Collection of public celebration photos uploaded by users"
+    },
+    "/game_results/{gameId}": {
+      "schema": "GameResult",
+      "description": "Winners recorded for each individual game"
     }
   }
 }

@@ -25,7 +25,19 @@ export interface PhotoItem {
   uploader?: string;
   timestamp: string;
   createdAt?: number;
+  gameId?: string;
   gameTag?: string;
+  isPrizeDistribution?: boolean;
+}
+
+export interface GameResult {
+  gameId: string;
+  firstPrize: string;
+  secondPrize: string;
+  thirdPrize: string;
+  specialMention?: string;
+  updatedAt?: number;
+  updatedBy?: string;
 }
 
 export interface EventInfo {

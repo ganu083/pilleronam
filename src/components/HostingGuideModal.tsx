@@ -68,13 +68,14 @@ export const HostingGuideModal: React.FC<HostingGuideModalProps> = ({ isOpen, on
         <ul class="space-y-2 text-stone-700">
           <li class="flex items-center gap-2">🍬 <span>മിഠായി പെറുക്കൽ</span></li>
           <li class="flex items-center gap-2">🍋 <span>നാരങ്ങ സ്പൂൺ</span></li>
-          <li class="flex items-center gap-2">🍾 <span>കുപ്പിയിൽ വെള്ളം നിറയ്ക്കൽ</span></li>
-          <li class="flex items-center gap-2">🪑 <span>കസേരകളി</span></li>
-          <li class="flex items-center gap-2">🐸 <span>തവളച്ചാട്ടം</span></li>
           <li class="flex items-center gap-2">🌊 <span>കുളം കര</span></li>
           <li class="flex items-center gap-2">🍞 <span>റൊട്ടി കടി</span></li>
           <li class="flex items-center gap-2">🧠 <span>മെമ്മറി ടെസ്റ്റ്</span></li>
-          <li class="flex items-center gap-2">🎯 <span>സുന്ദരിക്ക് പൊട്ട് കുത്തൽ</span></li>
+          <li class="flex items-center gap-2">🪑 <span>കസേരകളി (കുട്ടികൾ)</span></li>
+          <li class="flex items-center gap-2">🪑 <span>കസേരകളി (പുരുഷന്മാർ)</span></li>
+          <li class="flex items-center gap-2">🪑 <span>കസേരകളി (വനിതകൾ)</span></li>
+          <li class="flex items-center gap-2">🎯 <span>സുന്ദരിക്ക് പൊട്ട് കുത്തൽ (കുട്ടികൾ)</span></li>
+          <li class="flex items-center gap-2">🎯 <span>സുന്ദരിക്ക് പൊട്ട് കുത്തൽ (വനിതകൾ)</span></li>
         </ul>
       </div>
 
@@ -83,14 +84,10 @@ export const HostingGuideModal: React.FC<HostingGuideModalProps> = ({ isOpen, on
           🎁 സമ്മാനങ്ങൾ (Prizes)
         </h2>
         <ul class="space-y-2 text-stone-700">
-          <li>✨ അറ്റ്‌ലസ് (Atlas)</li>
           <li>✨ റൂബിക്സ് ക്യൂബ് (Rubik's Cube)</li>
-          <li>✨ ജിഗ്‌സോ പസിൽ (Jigsaw Puzzle)</li>
-          <li>✨ ക്ലാസിക് ബോർഡ് ഗെയിമുകൾ</li>
-          <li>✨ റൈറ്റിംഗ് / ടാബ്‌ലെറ്റ് പാഡ്</li>
           <li>✨ ഡ്രോയിംഗ് ബുക്ക് & കളറിംഗ് ബുക്കുകൾ</li>
-          <li>✨ സ്കെച്ച് പെൻ, ക്രയോൺസ്, കളർ പെൻസിലുകൾ</li>
-          <li>✨ പെൻസിൽ ബോക്സ്, സ്റ്റെൻസിൽസ്</li>
+          <li>✨ സ്കെച്ച് പെൻ, ക്രയോൺസ് & കളർ പെൻസിലുകൾ</li>
+          <li>✨ വിജയികൾക്കുള്ള ട്രോഫികളും മെഡലുകളും</li>
         </ul>
       </div>
     </section>
