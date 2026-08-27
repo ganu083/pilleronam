@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { PhotoItem } from '../types';
-import { INITIAL_PHOTOS } from '../data/onamData';
 import { 
   Upload, 
   Trash2, 
@@ -8,12 +7,9 @@ import {
   Download, 
   Plus, 
   Image as ImageIcon, 
-  Cloud, 
-  CloudCheck, 
   RefreshCw, 
-  AlertCircle,
   Sparkles,
-  Users
+  Camera
 } from 'lucide-react';
 import { triggerOnamPetals } from '../utils/confetti';
 import { db } from '../lib/firebase';
@@ -24,10 +20,7 @@ import {
   onSnapshot, 
   addDoc, 
   deleteDoc, 
-  doc, 
-  serverTimestamp, 
-  getDocs, 
-  writeBatch 
+  doc
 } from 'firebase/firestore';
 import { compressImage } from '../utils/imageCompressor';
 
@@ -41,7 +34,6 @@ export const PhotoGallerySection: React.FC = () => {
   });
   const [showNamePrompt, setShowNamePrompt] = useState(false);
   const [pendingFiles, setPendingFiles] = useState<FileList | null>(null);
-  const [isSeeding, setIsSeeding] = useState(false);
   const [syncStatus, setSyncStatus] = useState<'syncing' | 'live' | 'error'>('syncing');
   const [syncError, setSyncError] = useState<string | null>(null);
   
@@ -57,68 +49,50 @@ export const PhotoGallerySection: React.FC = () => {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        if (!snapshot.empty) {
-          const remotePhotos: PhotoItem[] = snapshot.docs.map((docSnap) => {
-            const data = docSnap.data();
-            return {
-              id: docSnap.id,
-              url: data.url,
-              caption: data.caption || 'ഓണം ആഘോഷം',
-              uploader: data.uploader || 'ആഘോഷ സംഘം',
-              timestamp: data.timestamp || 'ഓണം 2026',
-              createdAt: data.createdAt?.toMillis ? data.createdAt.toMillis() : (data.createdAt || Date.now()),
-              gameTag: data.gameTag || 'ആഘോഷം'
-            };
+        const userPhotos: PhotoItem[] = [];
+        
+        snapshot.docs.forEach((docSnap) => {
+          const data = docSnap.data();
+          
+          // Clean up and discard any legacy sample/mock photos from Firestore
+          const isSample = 
+            (data.url && (data.url.includes('images.unsplash.com') || data.url.includes('photo-sample'))) ||
+            data.uploader === 'ഓണം കമ്മിറ്റി' ||
+            data.caption === 'കുട്ടികളുടെ ഓണപ്പൂക്കള നിർമ്മാണം 🌸' ||
+            data.caption === 'കസേരകളി മത്സരത്തിലെ ആവേശം 🪑' ||
+            data.caption === 'സമ്മാനങ്ങൾ സ്വീകരിക്കുന്ന കുട്ടിത്താരങ്ങൾ 🎁';
+
+          if (isSample) {
+            // Delete legacy sample doc asynchronously
+            deleteDoc(doc(db, 'photos', docSnap.id)).catch(() => {});
+            return;
+          }
+
+          userPhotos.push({
+            id: docSnap.id,
+            url: data.url,
+            caption: data.caption || 'ഓണം ആഘോഷം',
+            uploader: data.uploader || 'ആഘോഷ സംഘം',
+            timestamp: data.timestamp || 'ഓണം 2026',
+            createdAt: data.createdAt?.toMillis ? data.createdAt.toMillis() : (data.createdAt || Date.now()),
+            gameTag: data.gameTag || 'ആഘോഷം'
           });
-          setPhotos(remotePhotos);
-          setSyncStatus('live');
-          setSyncError(null);
-        } else {
-          // If Firestore is empty initially, seed with initial mock data
-          seedInitialPhotos();
-        }
+        });
+
+        setPhotos(userPhotos);
+        setSyncStatus('live');
+        setSyncError(null);
       },
       (error) => {
         console.error('Firestore snapshot error:', error);
         setSyncStatus('error');
         setSyncError(error.message);
-        // Fallback to local data
-        setPhotos(INITIAL_PHOTOS);
+        setPhotos([]);
       }
     );
 
     return () => unsubscribe();
   }, []);
-
-  // Seed default sample photos to Firestore if database is brand new
-  const seedInitialPhotos = async () => {
-    try {
-      setIsSeeding(true);
-      const photosCollection = collection(db, 'photos');
-      const checkSnap = await getDocs(photosCollection);
-      
-      if (checkSnap.empty) {
-        const batch = writeBatch(db);
-        INITIAL_PHOTOS.forEach((photo, idx) => {
-          const docRef = doc(photosCollection);
-          batch.set(docRef, {
-            url: photo.url,
-            caption: photo.caption,
-            uploader: 'ഓണം കമ്മിറ്റി',
-            timestamp: photo.timestamp,
-            createdAt: Date.now() - (idx * 60000),
-            gameTag: photo.gameTag
-          });
-        });
-        await batch.commit();
-      }
-    } catch (e) {
-      console.error('Error seeding photos:', e);
-    } finally {
-      setIsSeeding(false);
-      setSyncStatus('live');
-    }
-  };
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -149,7 +123,6 @@ export const PhotoGallerySection: React.FC = () => {
     setUploadProgress(`0 / ${files.length} ഫോട്ടോകൾ അപ്‌ലോഡ് ചെയ്യുന്നു...`);
 
     const photosCollection = collection(db, 'photos');
-    let uploadedCount = 0;
 
     try {
       for (let i = 0; i < files.length; i++) {
@@ -174,8 +147,6 @@ export const PhotoGallerySection: React.FC = () => {
           createdAt: Date.now(),
           gameTag: 'ആഘോഷം'
         });
-
-        uploadedCount++;
       }
 
       triggerOnamPetals();
@@ -226,7 +197,7 @@ export const PhotoGallerySection: React.FC = () => {
               </div>
             </div>
             <p className="text-stone-500 text-xs sm:text-sm mt-1">
-              നിങ്ങൾ അപ്‌ലോഡ് ചെയ്യുന്ന ഫോട്ടോകൾ എല്ലാവർക്കും തത്സമയം കാണാൻ സാധിക്കും.
+              നിങ്ങൾ അപ്‌ലോഡ് ചെയ്യുന്ന യഥാർത്ഥ ഫോട്ടോകൾ എല്ലാവർക്കും തത്സമയം ഇവിടെ കാണാം.
             </p>
           </div>
 
@@ -243,7 +214,7 @@ export const PhotoGallerySection: React.FC = () => {
             />
             <button
               onClick={() => fileInputRef.current?.click()}
-              disabled={isUploading || isSeeding}
+              disabled={isUploading}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold py-2.5 px-4 rounded-xl shadow-xs transition active:scale-95 text-xs sm:text-sm cursor-pointer disabled:opacity-50"
             >
               {isUploading ? (
@@ -276,7 +247,7 @@ export const PhotoGallerySection: React.FC = () => {
             <span className="text-[11px] text-stone-400 mt-0.5 font-normal">തത്സമയം എല്ലാവരും കാണും</span>
           </div>
 
-          {/* Photos Cards from Firestore */}
+          {/* Real User Photos Cards from Firestore */}
           {photos.map((photo) => (
             <div
               key={photo.id}
@@ -320,12 +291,25 @@ export const PhotoGallerySection: React.FC = () => {
 
         </div>
 
-        {/* Empty state fallback */}
-        {photos.length === 0 && !isSeeding && (
-          <div className="text-center py-12 bg-amber-50/40 rounded-2xl border border-dashed border-amber-200 mt-4">
-            <ImageIcon className="w-12 h-12 text-amber-400 mx-auto mb-2" />
-            <p className="text-stone-700 font-bold font-malayalam">ഫോട്ടോകൾ ഒന്നും ഇതുവരെ ചേർത്തിട്ടില്ല</p>
-            <p className="text-stone-500 text-xs mt-1">ആദ്യത്തെ ഫോട്ടോ അപ്‌ലോഡ് ചെയ്ത് തുടക്കം കുറിക്കൂ!</p>
+        {/* Empty state when no user photos are uploaded yet */}
+        {photos.length === 0 && (
+          <div className="text-center py-10 px-4 bg-amber-50/50 rounded-2xl border border-dashed border-amber-200 mt-4">
+            <div className="w-14 h-14 mx-auto rounded-full bg-amber-100 text-amber-700 flex items-center justify-center mb-3">
+              <Camera className="w-7 h-7" />
+            </div>
+            <h4 className="text-stone-800 font-bold font-malayalam text-base sm:text-lg">
+              ഫോട്ടോകൾ ഒന്നും ഇതുവരെ ചേർത്തിട്ടില്ല
+            </h4>
+            <p className="text-stone-500 text-xs sm:text-sm mt-1 max-w-md mx-auto">
+              ആഘോഷ പരിപാടിയുടെ ഫോട്ടോകൾ ക്യാമറയിൽ നിന്നോ ഗാലറിയിൽ നിന്നോ നേരിട്ട് അപ്‌ലോഡ് ചെയ്യാം.
+            </p>
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="mt-4 inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold py-2.5 px-5 rounded-xl transition shadow-xs cursor-pointer"
+            >
+              <Upload className="w-4 h-4" />
+              <span>ആദ്യത്തെ ഫോട്ടോ അപ്‌ലോഡ് ചെയ്യൂ</span>
+            </button>
           </div>
         )}
 

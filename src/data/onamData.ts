@@ -208,26 +208,4 @@ export const PRIZES_LIST: Prize[] = [
   }
 ];
 
-export const INITIAL_PHOTOS: PhotoItem[] = [
-  {
-    id: 'photo-sample-1',
-    url: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80',
-    caption: 'കുട്ടികളുടെ ഓണപ്പൂക്കള നിർമ്മാണം 🌸',
-    timestamp: 'ഓണം 2026',
-    gameTag: 'പൂക്കളം'
-  },
-  {
-    id: 'photo-sample-2',
-    url: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80',
-    caption: 'കസേരകളി മത്സരത്തിലെ ആവേശം 🪑',
-    timestamp: 'ഓണം 2026',
-    gameTag: 'കസേരകളി'
-  },
-  {
-    id: 'photo-sample-3',
-    url: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
-    caption: 'സമ്മാനങ്ങൾ സ്വീകരിക്കുന്ന കുട്ടിത്താരങ്ങൾ 🎁',
-    timestamp: 'ഓണം 2026',
-    gameTag: 'സമ്മാനവിതരണം'
-  }
-];
+export const INITIAL_PHOTOS: PhotoItem[] = [];
